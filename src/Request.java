@@ -26,7 +26,7 @@ public class Request {
         stringBuilder.append(method).append(" ").append(url).append(" ").append(version).append("\n");
         for(Map.Entry<String, List<String>> header: headers.entrySet()){
             stringBuilder.append(header.getKey()).append(": ");
-            stringBuilder.append(String.join(", ",header.getValue()));
+            stringBuilder.append(String.join(", ", header.getValue()));
             stringBuilder.append("\n");
         }
         stringBuilder.append("\n");
