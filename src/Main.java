@@ -1,6 +1,4 @@
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -20,11 +18,19 @@ public class Main{
                 InputStream socket1InputStream = socket1.getInputStream();
                 OutputStream socket1OutputStream = socket1.getOutputStream();
 
-                // no need for a loop since request body is small
-                int bytesReadFromSocket1 = socket1InputStream.read(buffer);
+                ByteArrayOutputStream headerBuffer = new ByteArrayOutputStream();
+                int b;
+                int lastFour = 0;
 
-                String request = new String(buffer, 0, bytesReadFromSocket1);
+                while((b = socket1InputStream.read()) != -1){
+                    headerBuffer.write(b);
+                    lastFour = (lastFour << 8 ) | (b & 0xFF);
+                    if(lastFour == 0x0D0A0D0A) break;
+                }
+                byte[] headerBytes = headerBuffer.toByteArray();
+                int bytesReadFromSocket1 = headerBytes.length;
 
+                String request = new String(headerBytes);
 
                 if (!(request.startsWith("GET") || request.startsWith("POST")) || request.equals(lastRequest)) {
                     socket1.close();
@@ -46,6 +52,9 @@ public class Main{
                     socket1OutputStream.write(buffer, 0, bytesReadFromSocket2);
                     response.append(new String(buffer, 0, bytesReadFromSocket2));
                 }
+
+
+
                 socket1OutputStream.flush();
 
                 System.out.println("Response: ");
