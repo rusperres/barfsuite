@@ -2,6 +2,7 @@ public class Transaction {
     private Request request;
     private Response response;
 
+
     public Transaction(Request request, Response response) {
         this.request = request;
         this.response = response;
