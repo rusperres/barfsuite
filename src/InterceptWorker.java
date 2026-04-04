@@ -42,25 +42,11 @@ public class InterceptWorker implements Runnable {
             String request = new String(inputBytes);
             System.out.println(request);
 
-        }catch (IOException e){}
+        }catch (IOException e){
+            System.out.println(e.getMessage());
+        }
     }
 
 
-    static void main() {
-        ServerSocket serverSocket = null;
-        ArrayList<InterceptWorker> interceptWorkers = new ArrayList<>();
-        ArrayList<Thread> threads = new ArrayList<>();
-        try{
-            serverSocket = new ServerSocket(8000);
-            while(true){
-                Socket socket = serverSocket.accept();
-                InterceptWorker interceptWorker = new InterceptWorker(serverSocket, socket);
-                if(interceptWorkers.contains(interceptWorker))continue;
-                interceptWorkers.add(interceptWorker);
-                Thread thread = new Thread(interceptWorker);
-                threads.add(thread);
-                thread.start();
-            }
-        }catch (IOException e){}
-    }
+
 }
