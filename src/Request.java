@@ -20,6 +20,14 @@ public class Request {
         headers.put(key, value);
     }
 
+    public void removeHeader(String key){
+        headers.remove(key);
+    }
+
+    public void changeHeader(String key, List<String> value){
+        headers.replace(key, value);
+    }
+
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
@@ -52,5 +60,21 @@ public class Request {
 
     public String getBody() {
         return body;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
     }
 }
